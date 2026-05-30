@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 智能词汇解析 - 多彩护眼版</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        /* ======== 亮色主题 (柔和米白 + 深灰蓝正文) ======== */
+        /* ======== 亮色主题 (柔和米白 + 深灰蓝正文) ======== */
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #334155;
+            --text-muted: #64748b;
+            --text-example: #475569;
+
+            --border-color: #e2e8f0;
+            --input-bg: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+
+            /* 全局普通加粗高亮色 (维持柔和紫) */
+            --highlight-bold: #8b5cf6;
+
+            /* 9大标题专属语义色彩 (亮色模式) - 重新洗牌 */
+            --c-title-1: #0ea5e9; /* 1. 音标：天空蓝 */
+            --c-title-2: #d97706; /* 2. 释义：琥珀金 (与1的蓝色彻底拉开) */
+            --c-title-3: #16a34a; /* 3. 短语：常春藤绿 */
+            --c-title-4: #db2777; /* 4. 派生：洋红色 (避开紫色撞色) */
+            --c-title-5: #ea580c; /* 5. 形近：警示橙 */
+            --c-title-6: #0d9488; /* 6. 同义：深青色 */
+            --c-title-7: #dc2626; /* 7. 反义：砖红色 */
+            --c-title-8: #4f46e5; /* 8. 易混：靛蓝色 */
+            --c-title-9: #2563eb; /* 9. 例句：亮蓝色 (不再用灰色) */
+
+            /* 考试标签颜色 */
+            --tag-cet4: #10b981;
+            --tag-cet6: #06b6d4;
+            --tag-ielts: #8b5cf6;
+            --tag-toefl: #f59e0b;
+            --tag-ky: #ef4444;
+            --tag-core: #e11d48;
+        }
+
+        /* ======== 暗色主题 (深空灰 + 柔和灰白正文) ======== */
+        [data-theme="dark"] {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #cbd5e1;
+            --text-muted: #94a3b8;
+            --text-example: #cbd5e1;
+
+            --border-color: #334155;
+            --input-bg: #0f172a;
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+
+            /* 全局普通加粗高亮色 (维持柔和紫) */
+            --highlight-bold: #a78bfa;
+
+            /* 9大标题专属语义色彩 (暗色模式) - 解决撞色与相近问题 */
+            --c-title-1: #38bdf8; /* 1. 音标：亮天蓝 */
+            --c-title-2: #fcd34d; /* 2. 释义：明黄色 (与1的蓝色形成强烈对比) */
+            --c-title-3: #4ade80; /* 3. 短语：亮绿色 */
+            --c-title-4: #f472b6; /* 4. 派生：粉红色 (完美解决与后面紫色的撞色) */
+            --c-title-5: #fb923c; /* 5. 形近：亮橙色 */
+            --c-title-6: #2dd4bf; /* 6. 同义：青绿色 */
+            --c-title-7: #f87171; /* 7. 反义：柔和红 */
+            --c-title-8: #e879f9; /* 8. 易混：紫红色 */
+            --c-title-9: #818cf8; /* 9. 例句：长春花蓝 (提亮并带点蓝调，不再融入正文) */
+        }
+
+        body {
+            font-family: "Times New Roman", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            line-height: 1.8;
+            font-size: 17px;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            font-weight: 800;
+            margin: 0;
+            color: var(--text-main);
+        }
+
+        .theme-toggle {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--c-title-2);
+            color: var(--c-title-2);
+        }
+
+        .container {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        /* 输入区 */
+        .input-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+            align-items: center;
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+        }
+
+        .input-label {
+            font-weight: 700;
+            color: var(--text-muted);
+            font-size: 15px;
+            min-width: 80px;
+        }
+
+        input[type="text"], input[type="password"] {
+            flex: 1;
+            padding: 14px 18px;
+            background: var(--input-bg);
+            color: var(--text-main);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 18px;
+            font-family: "Times New Roman", -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 500;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: var(--c-title-2);
+        }
+
+        button.action-btn {
+            padding: 14px 28px;
+            background-color: var(--c-title-2);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            white-space: nowrap;
+        }
+
+        button.action-btn:hover { filter: brightness(1.1); }
+        button.action-btn:active { transform: scale(0.97); }
+        button.action-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* 历史记录 */
+        .history-section {
+            margin-bottom: 30px;
+            padding: 15px 20px;
+            background: var(--bg-color);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+        }
+        .history-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .history-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .history-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-family: "Times New Roman", serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .history-item:hover {
+            border-color: var(--c-title-2);
+            color: var(--c-title-2);
+        }
+        .clear-history {
+            color: var(--c-title-5);
+            cursor: pointer;
+        }
+
+        #statusMessage {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            font-weight: bold;
+            border-radius: 8px;
+            font-family: -apple-system, sans-serif;
+            display: none;
+        }
+        .loading { color: var(--c-title-2); background: rgba(37, 99, 235, 0.1); }
+        .error { color: var(--c-title-7); background: rgba(219, 39, 119, 0.1); }
+
+        /* ======== 结果渲染区排版 ======== */
+        #result {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid var(--border-color);
+            display: none;
+            font-size: 1.15rem;
+        }
+
+        .exam-tag {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 0 4px;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+        }
+        .tag-cet4 { background-color: var(--tag-cet4); }
+        .tag-cet6 { background-color: var(--tag-cet6); }
+        .tag-ielts { background-color: var(--tag-ielts); }
+        .tag-toefl { background-color: var(--tag-toefl); }
+        .tag-ky { background-color: var(--tag-ky); }
+        .tag-core { background-color: var(--tag-core); }
+
+        #result h1 {
+            font-size: 1.6em;
+            margin-bottom: 25px;
+            color: var(--text-main);
+        }
+
+        #result h2 {
+            font-size: 2em;
+            color: var(--text-main);
+            margin-top: 30px;
+            margin-bottom: 25px;
+            font-weight: bold;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        #result p { margin: 12px 0; }
+
+        /* 核心：全局普通的加粗文字使用柔和护眼紫 */
+        #result strong {
+            color: var(--highlight-bold);
+            font-weight: bold;
+        }
+
+        /* 核心：为九大标题定制的颜色类 (优先级高于普通 strong) */
+        #result strong.title-1 { color: var(--c-title-1) !important; font-size: 1.05em; }
+        #result strong.title-2 { color: var(--c-title-2) !important; font-size: 1.05em; }
+        #result strong.title-3 { color: var(--c-title-3) !important; font-size: 1.05em; }
+        #result strong.title-4 { color: var(--c-title-4) !important; font-size: 1.05em; }
+        #result strong.title-5 { color: var(--c-title-5) !important; font-size: 1.05em; }
+        #result strong.title-6 { color: var(--c-title-6) !important; font-size: 1.05em; }
+        #result strong.title-7 { color: var(--c-title-7) !important; font-size: 1.05em; }
+        #result strong.title-8 { color: var(--c-title-8) !important; font-size: 1.05em; }
+        #result strong.title-9 { color: var(--c-title-9) !important; font-size: 1.05em; }
+
+        #result ul, #result ol {
+            padding-left: 24px;
+            margin: 16px 0;
+            color: var(--text-main);
+        }
+
+        #result li {
+            margin-bottom: 18px;
+            line-height: 1.8;
+        }
+
+        /* 嵌套列表（比如例句部分）使用稍微暗一点的颜色区分层级 */
+        #result li ul li {
+            color: var(--text-example);
+            margin-bottom: 10px;
+            list-style-type: circle;
+        }
+
+        #result blockquote {
+            border-left: 4px solid var(--c-title-2);
+            margin: 20px 0;
+            padding: 12px 20px;
+            color: var(--text-muted);
+            background: rgba(0,0,0,0.02);
+            border-radius: 0 8px 8px 0;
+            font-weight: normal;
+        }
+        [data-theme="dark"] #result blockquote {
+            background: rgba(255,255,255,0.03);
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-nav">
+    <div class="header">
+        <h1>📖 多彩词汇解析</h1>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <span id="themeIcon">🌓</span> 切换主题
+    </button>
+</div>
+
+<div class="container">
+    <div class="input-group">
+        <span class="input-label">接口密钥：</span>
+        <input type="password" id="apiKey" placeholder="输入 DeepSeek API Key (sk-...)">
+        <button class="action-btn" id="saveKeyBtn" onclick="saveApiKey()">保存</button>
+    </div>
+
+    <div class="input-group">
+        <span class="input-label">查询单词：</span>
+        <input type="text" id="wordInput" placeholder="输入要查询的单词，按回车键..." onkeypress="handleKeyPress(event)">
+        <button class="action-btn" id="searchBtn" onclick="analyzeWord()">生成解析</button>
+    </div>
+
+    <div class="history-section" id="historySection" style="display: none;">
+        <div class="history-title">
+            <span>最近查询历史</span>
+            <span class="clear-history" onclick="clearHistory()">[ 清空 ]</span>
+        </div>
+        <div class="history-list" id="historyList"></div>
+    </div>
+
+    <div id="statusMessage"></div>
+    <div id="result"></div>
+</div>
+
+<script>
+    let searchHistory = [];
+
+    window.onload = function() {
+        const savedTheme = localStorage.getItem('color_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+
+        const savedKey = localStorage.getItem('deepseek_api_key');
+        if (savedKey) {
+            document.getElementById('apiKey').value = savedKey;
+            document.getElementById('saveKeyBtn').innerText = '已保存';
+        }
+        loadHistory();
+    };
+
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('color_theme', newTheme);
+    }
+
+    function saveApiKey() {
+        const key = document.getElementById('apiKey').value.trim();
+        if (key) {
+            localStorage.setItem('deepseek_api_key', key);
+            const btn = document.getElementById('saveKeyBtn');
+            btn.innerText = '成功';
+            setTimeout(() => btn.innerText = '保存', 2000);
+        }
+    }
+
+    function loadHistory() {
+        const storedHistory = localStorage.getItem('word_history_color');
+        if (storedHistory) {
+            searchHistory = JSON.parse(storedHistory);
+            renderHistory();
+        }
+    }
+
+    function addHistory(word) {
+        word = word.toLowerCase();
+        searchHistory = searchHistory.filter(item => item !== word);
+        searchHistory.unshift(word);
+        if (searchHistory.length > 20) searchHistory.pop();
+        localStorage.setItem('word_history_color', JSON.stringify(searchHistory));
+        renderHistory();
+    }
+
+    function renderHistory() {
+        const historySection = document.getElementById('historySection');
+        const historyList = document.getElementById('historyList');
+
+        if (searchHistory.length === 0) {
+            historySection.style.display = 'none';
+            return;
+        }
+
+        historySection.style.display = 'block';
+        historyList.innerHTML = '';
+
+        searchHistory.forEach(word => {
+            const span = document.createElement('span');
+            span.className = 'history-item';
+            span.innerText = word;
+            span.onclick = () => {
+                document.getElementById('wordInput').value = word;
+                analyzeWord();
+            };
+            historyList.appendChild(span);
+        });
+    }
+
+    function clearHistory() {
+        searchHistory = [];
+        localStorage.removeItem('word_history_color');
+        renderHistory();
+    }
+
+    function handleKeyPress(e) {
+        if (e.key === 'Enter') analyzeWord();
+    }
+
+    function showStatus(text, type) {
+        const statusEl = document.getElementById('statusMessage');
+        statusEl.className = type;
+        statusEl.innerText = text;
+        statusEl.style.display = 'block';
+    }
+
+    async function analyzeWord() {
+        const apiKey = document.getElementById('apiKey').value.trim();
+        const word = document.getElementById('wordInput').value.trim();
+        const searchBtn = document.getElementById('searchBtn');
+        const resultDiv = document.getElementById('result');
+
+        if (!apiKey || !word) return;
+
+        const systemPrompt = `你是一个专业的英语词汇解析专家。请严格按照以下Markdown模板输出解析内容。
+
+【强指令要求】：在输出任何衍生词、形近词、同义词、反义词、易混词时，**每一个独立的英文单词后面，必须紧跟它的音标**！如果没有带音标则视为格式错误。
+
+# 【词汇等级】：[填写适用等级纯文本，如：四级/六级/考研/雅思/托福，如果是核心词/高频词请一并标注]
+## 单词：[用户输入的单词]
+1. **音标**：英 [英式音标] / 美 [美式音标]
+2. **中文释义**：[分词性标注核心含义]
+3. **典型短语**：[3～5个高频实用搭配]
+4. **派生词**：[衍生单词 + 音标 + 词性 + 简易释义]
+5. **形近词辨析**：[单词 + 音标 + 释义 + 区分记忆点]
+6. **同义词**：[2～4个单词 + 音标 + 简要用法区别]
+7. **反义词**：[2～3个单词 + 音标 + 中文释义]
+8. **易混词专项辨析**：[区分本组易混词汇，附带音标和例句辅助理解]
+9. **例句**：
+   - [日常口语句及中文翻译]
+   - [书面写作句及中文翻译]`;
+
+        searchBtn.disabled = true;
+        resultDiv.style.display = 'none';
+        showStatus('🚀 正在利用 AI 深度解析词汇中，请稍候...', 'loading');
+
+        try {
+            const response = await fetch('https://api.deepseek.com/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    model: "deepseek-chat",
+                    messages: [
+                        { role: "system", content: systemPrompt },
+                        { role: "user", content: word }
+                    ],
+                    temperature: 0.2
+                })
+            });
+
+            if (!response.ok) {
+                const errData = await response.json();
+                throw new Error(errData.error?.message || `HTTP 错误状态: ${response.status}`);
+            }
+
+            const data = await response.json();
+            let markdownContent = data.choices[0].message.content;
+
+            let htmlContent = marked.parse(markdownContent);
+
+            // 1. 替换考试标签为带颜色的 span
+            htmlContent = htmlContent.replace(/(四级|六级|雅思|托福|考研|核心词|高频词)/g, function(match) {
+                let className = '';
+                if (match === '四级') className = 'tag-cet4';
+                else if (match === '六级') className = 'tag-cet6';
+                else if (match === '雅思') className = 'tag-ielts';
+                else if (match === '托福') className = 'tag-toefl';
+                else if (match === '考研') className = 'tag-ky';
+                else if (match === '核心词' || match === '高频词') className = 'tag-core';
+                return `<span class="exam-tag ${className}">${match}</span>`;
+            });
+
+            // 2. 核心功能：为九大固定标题注入专属的颜色类
+            const sectionTitles = [
+                "音标", "中文释义", "典型短语", "派生词", "形近词辨析",
+                "同义词", "反义词", "易混词专项辨析", "例句"
+            ];
+
+            sectionTitles.forEach((title, index) => {
+                // 利用正则匹配 marked.js 生成的 <strong>音标</strong> 等内容
+                const titleRegex = new RegExp(`<strong>(${title})<\/strong>`, 'g');
+                htmlContent = htmlContent.replace(titleRegex, `<strong class="title-${index + 1}">$1</strong>`);
+            });
+
+            resultDiv.innerHTML = htmlContent;
+            document.getElementById('statusMessage').style.display = 'none';
+            resultDiv.style.display = 'block';
+
+            addHistory(word);
+
+        } catch (error) {
+            showStatus(`❌ 解析失败: ${error.message}`, 'error');
+        } finally {
+            searchBtn.disabled = false;
+        }
+    }
+</script>
+</body>
+</html>
