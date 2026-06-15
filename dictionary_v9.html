@@ -3,83 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AI 智能词汇解析</title>
+    <title>AI 智能词汇解析 v9</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
     <style>
-        /* ======== 亮色主题 ======== */
+        /* ======== 亮色主题 (Apple-inspired) ======== */
         :root {
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #334155;
-            --text-muted: #64748b;
-            --text-example: #475569;
-            --border-color: #e2e8f0;
-            --input-bg: #ffffff;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            --highlight-bold: #8b5cf6;
+            --bg-color: #f5f5f7;
+            --card-bg: rgba(255, 255, 255, 0.72);
+            --text-main: #1d1d1f;
+            --text-muted: #86868b;
+            --text-example: #3a3a3c;
+            --border-color: rgba(0, 0, 0, 0.08);
+            --input-bg: rgba(255, 255, 255, 0.9);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.04), 0 2px 6px rgba(0,0,0,0.06);
+            --shadow-lg: 0 12px 32px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+            --shadow-xl: 0 24px 64px rgba(0,0,0,0.10), 0 8px 24px rgba(0,0,0,0.06);
+            --highlight-bold: #6c47ff;
+            --glass-bg: rgba(255,255,255,0.72);
+            --glass-border: rgba(0,0,0,0.06);
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-in-out-expo: cubic-bezier(0.65, 0, 0.35, 1);
 
-            --c-title-1: #0ea5e9;
-            --c-title-2: #d97706;
-            --c-title-3: #8b5cf6;
-            --c-title-4: #16a34a;
-            --c-title-5: #db2777;
-            --c-title-6: #ea580c;
-            --c-title-7: #0d9488;
-            --c-title-8: #dc2626;
-            --c-title-9: #4f46e5;
-            --c-title-10: #2563eb;
+            --c-title-1: #007aff;
+            --c-title-2: #e08e0b;
+            --c-title-3: #6c47ff;
+            --c-title-4: #30b54e;
+            --c-title-5: #e0407b;
+            --c-title-6: #f06e2a;
+            --c-title-7: #0ea89a;
+            --c-title-8: #e63946;
+            --c-title-9: #5856d6;
+            --c-title-10: #007aff;
 
-            --tag-cet4: #10b981;
-            --tag-cet6: #06b6d4;
-            --tag-ielts: #8b5cf6;
-            --tag-toefl: #f59e0b;
-            --tag-ky: #ef4444;
-            --tag-core: #e11d48;
+            --tag-cet4: #30b54e;
+            --tag-cet6: #0ea89a;
+            --tag-ielts: #6c47ff;
+            --tag-toefl: #e08e0b;
+            --tag-ky: #e63946;
+            --tag-core: #e0407b;
 
-            --clickable-bg: rgba(217, 119, 6, 0.08);
-            --clickable-hover-bg: rgba(217, 119, 6, 0.18);
+            --clickable-bg: rgba(224, 142, 11, 0.08);
+            --clickable-hover-bg: rgba(224, 142, 11, 0.16);
+            --clickable-active-bg: rgba(224, 142, 11, 0.22);
         }
 
         [data-theme="dark"] {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-main: #cbd5e1;
-            --text-muted: #94a3b8;
-            --text-example: #cbd5e1;
-            --border-color: #334155;
-            --input-bg: #0f172a;
-            --shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-            --highlight-bold: #a78bfa;
+            --bg-color: #0a0a0c;
+            --card-bg: rgba(30, 30, 35, 0.72);
+            --text-main: #f5f5f7;
+            --text-muted: #98989d;
+            --text-example: #d1d1d6;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --input-bg: rgba(30, 30, 35, 0.9);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.4);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.3), 0 2px 6px rgba(0,0,0,0.4);
+            --shadow-lg: 0 12px 32px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.3);
+            --shadow-xl: 0 24px 64px rgba(0,0,0,0.5), 0 8px 24px rgba(0,0,0,0.4);
+            --highlight-bold: #9b7aff;
+            --glass-bg: rgba(30,30,35,0.72);
+            --glass-border: rgba(255,255,255,0.06);
 
-            --c-title-1: #38bdf8;
-            --c-title-2: #fcd34d;
-            --c-title-3: #a78bfa;
-            --c-title-4: #4ade80;
-            --c-title-5: #f472b6;
-            --c-title-6: #fb923c;
-            --c-title-7: #2dd4bf;
-            --c-title-8: #f87171;
+            --c-title-1: #38a1ff;
+            --c-title-2: #f0a828;
+            --c-title-3: #9b7aff;
+            --c-title-4: #40d060;
+            --c-title-5: #f06090;
+            --c-title-6: #f88440;
+            --c-title-7: #20c8b8;
+            --c-title-8: #f05454;
             --c-title-9: #e879f9;
-            --c-title-10: #818cf8;
+            --c-title-10: #60a0ff;
 
-            --clickable-bg: rgba(252, 211, 77, 0.10);
-            --clickable-hover-bg: rgba(252, 211, 77, 0.22);
+            --clickable-bg: rgba(240, 168, 40, 0.10);
+            --clickable-hover-bg: rgba(240, 168, 40, 0.20);
+            --clickable-active-bg: rgba(240, 168, 40, 0.28);
         }
 
         *, *::before, *::after { box-sizing: border-box; }
 
+        /* ======== 滚动条 ======== */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.18); border-radius: 20px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.30); }
+        [data-theme="dark"] ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.18); }
+        [data-theme="dark"] ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.30); }
+
+        /* ======== 文字选中 ======== */
+        ::selection { background: rgba(0,122,255,0.22); color: inherit; }
+        [data-theme="dark"] ::selection { background: rgba(56,161,255,0.28); color: inherit; }
+        ::-moz-selection { background: rgba(0,122,255,0.22); color: inherit; }
+
         body {
-            font-family: "Times New Roman", -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+            font-family: "Times New Roman", "Noto Serif SC", "Songti SC", "SimSun", "STSong", "宋体", serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             max-width: 880px;
             margin: 0 auto;
-            padding: 30px 20px;
+            padding: 36px 24px;
             line-height: 1.8;
-            font-size: 17px;
+            font-size: 21px;
             -webkit-font-smoothing: antialiased;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+            transition: background-color 0.5s var(--ease-in-out-expo), color 0.5s var(--ease-in-out-expo);
             -webkit-tap-highlight-color: transparent;
+            letter-spacing: 0.01em;
+        }
+
+        /* 背景渐变纹理 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 20%, rgba(0,122,255,0.03) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 60%, rgba(224,142,11,0.02) 0%, transparent 50%),
+                        radial-gradient(ellipse at 50% 80%, rgba(108,71,255,0.02) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        [data-theme="dark"] body::before {
+            background: radial-gradient(ellipse at 30% 20%, rgba(56,161,255,0.04) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 60%, rgba(240,168,40,0.03) 0%, transparent 50%),
+                        radial-gradient(ellipse at 50% 80%, rgba(155,122,255,0.03) 0%, transparent 50%);
         }
 
         /* ======== 顶部导航 ======== */
@@ -87,107 +145,140 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
-            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+            margin-bottom: 28px;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
         }
 
         .header h1 {
-            font-size: 1.6em;
-            font-weight: 800;
+            font-size: 1.55em;
+            font-weight: 700;
             margin: 0;
             color: var(--text-main);
+            letter-spacing: -0.02em;
         }
 
         .nav-actions {
             display: flex;
-            gap: 12px;
+            gap: 10px;
         }
 
         .btn-secondary {
-            background: var(--card-bg);
-            border: 2px solid var(--border-color);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
             color: var(--text-main);
-            padding: 8px 16px;
-            border-radius: 8px;
+            padding: 9px 18px;
+            border-radius: var(--radius-md);
             cursor: pointer;
             font-size: 14px;
-            font-weight: bold;
+            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.2s;
-            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+            transition: all 0.35s var(--ease-spring);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
             min-height: 44px;
             white-space: nowrap;
+            box-shadow: var(--shadow-sm);
+            letter-spacing: -0.01em;
         }
 
         .btn-secondary:hover {
             border-color: var(--c-title-2);
             color: var(--c-title-2);
+            transform: translate(2px, 2px) scale(1.03);
+            box-shadow: -1px -1px 4px rgba(224, 142, 11, 0.05), 3px 3px 10px rgba(0, 0, 0, 0.10);
+        }
+
+        .btn-secondary:active {
+            transform: scale(0.965) translateY(0);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.08s var(--ease-in-out-expo);
         }
 
         .btn-secondary:disabled {
-            opacity: 0.4;
+            opacity: 0.35;
             cursor: not-allowed;
             pointer-events: none;
+            filter: grayscale(0.5);
         }
 
         /* ======== 侧边悬浮清理按钮 ======== */
         .side-sweep-btn {
             position: fixed;
-            right: 20px;
-            bottom: 120px;
+            right: 24px;
+            bottom: 140px;
             z-index: 999;
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
-            background: var(--card-bg);
-            border: 1.5px solid var(--border-color);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
             color: var(--text-muted);
             font-size: 20px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-            opacity: 0.5;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.45s var(--ease-spring);
+            opacity: 0.6;
             transform: rotate(-8deg);
             user-select: none;
             -webkit-tap-highlight-color: transparent;
+            animation: floatIdle 4s ease-in-out infinite;
+        }
+        @keyframes floatIdle {
+            0%, 100% { transform: rotate(-8deg) translateY(0); }
+            50% { transform: rotate(-6deg) translateY(-4px); }
         }
         .side-sweep-btn:hover {
             opacity: 1;
-            transform: rotate(0deg) scale(1.15);
+            transform: rotate(0deg) scale(1.12) translateY(-2px);
             border-color: var(--c-title-2);
             color: var(--c-title-2);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+            box-shadow: var(--shadow-xl);
+            animation: none;
         }
         .side-sweep-btn:active {
             transform: rotate(-5deg) scale(0.88);
-            transition: transform 0.08s;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.06s var(--ease-in-out-expo);
         }
 
         @media (max-width: 640px) {
             .side-sweep-btn {
-                right: 10px;
-                bottom: 80px;
-                width: 40px;
-                height: 40px;
+                right: 12px;
+                bottom: 90px;
+                width: 42px;
+                height: 42px;
                 font-size: 18px;
-                opacity: 0.45;
-                transform: rotate(-6deg);
+                opacity: 0.5;
             }
         }
 
         /* ======== 主容器 ======== */
         .container {
-            background: var(--card-bg);
-            padding: 36px;
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow);
-            transition: background-color 0.3s, border-color 0.3s;
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            padding: 40px;
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-lg);
+            transition: background-color 0.5s var(--ease-in-out-expo), border-color 0.5s var(--ease-in-out-expo), box-shadow 0.5s var(--ease-in-out-expo);
+            animation: containerIn 0.6s var(--ease-out-expo) both;
+        }
+        @keyframes containerIn {
+            from { opacity: 0; transform: translateY(12px) scale(0.995); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .container:hover {
+            box-shadow: var(--shadow-xl);
         }
 
         /* ======== 可折叠 API Key 区 ======== */
@@ -198,50 +289,52 @@
             margin-bottom: 16px;
             cursor: pointer;
             user-select: none;
-            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
-            font-size: 14px;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
+            font-size: 13px;
             color: var(--text-muted);
             font-weight: 600;
-            padding: 6px 0;
-            transition: color 0.2s;
+            padding: 8px 4px;
+            transition: color 0.3s var(--ease-out-expo);
+            letter-spacing: -0.01em;
         }
         .api-toggle-bar:hover { color: var(--c-title-2); }
 
         .api-toggle-arrow {
             display: inline-block;
-            transition: transform 0.3s ease;
+            transition: transform 0.4s var(--ease-spring);
             font-size: 12px;
         }
         .api-toggle-arrow.open { transform: rotate(90deg); }
 
         .api-key-section {
             overflow: hidden;
-            transition: max-height 0.35s ease, opacity 0.25s ease, margin 0.35s ease;
+            transition: max-height 0.5s var(--ease-in-out-expo), opacity 0.4s var(--ease-out-expo), margin 0.5s var(--ease-in-out-expo);
             max-height: 0;
             opacity: 0;
             margin-bottom: 0;
         }
         .api-key-section.expanded {
-            max-height: 200px;
+            max-height: 220px;
             opacity: 1;
-            margin-bottom: 25px;
+            margin-bottom: 28px;
         }
 
         /* ======== 输入区 ======== */
         .input-group {
             display: flex;
             gap: 12px;
-            margin-bottom: 25px;
+            margin-bottom: 28px;
             align-items: center;
-            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
         }
 
         .input-label {
-            font-weight: 700;
+            font-weight: 600;
             color: var(--text-muted);
-            font-size: 15px;
+            font-size: 14px;
             min-width: 80px;
             white-space: nowrap;
+            letter-spacing: -0.01em;
         }
 
         input[type="text"],
@@ -250,45 +343,68 @@
             padding: 14px 18px;
             background: var(--input-bg);
             color: var(--text-main);
-            border: 2px solid var(--border-color);
-            border-radius: 8px;
+            border: 1.5px solid var(--border-color);
+            border-radius: var(--radius-md);
             font-size: 18px;
-            font-family: "Times New Roman", -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: "Times New Roman", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
             font-weight: 500;
             outline: none;
-            transition: all 0.2s;
+            transition: all 0.3s var(--ease-out-expo);
             min-width: 0;
+            box-shadow: var(--shadow-sm);
+            letter-spacing: 0.01em;
         }
 
         input[type="text"]:focus,
         input[type="password"]:focus {
             border-color: var(--c-title-2);
-            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.1);
+            box-shadow: 0 0 0 4px rgba(224, 142, 11, 0.12), 0 4px 14px rgba(224, 142, 11, 0.08);
+            transform: translateY(-2px);
+        }
+
+        [data-theme="dark"] input[type="text"]:focus,
+        [data-theme="dark"] input[type="password"]:focus {
+            box-shadow: 0 0 0 4px rgba(240, 168, 40, 0.16), 0 4px 14px rgba(240, 168, 40, 0.10);
         }
 
         button.action-btn {
             padding: 14px 28px;
-            background-color: var(--c-title-2);
+            background: linear-gradient(135deg, var(--c-title-2), #c97a05);
             color: #ffffff;
             border: none;
-            border-radius: 8px;
+            border-radius: var(--radius-md);
             font-size: 16px;
             font-weight: 700;
             cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s;
+            transition: all 0.35s var(--ease-spring);
             white-space: nowrap;
-            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
             min-height: 48px;
+            box-shadow: 0 2px 8px rgba(224, 142, 11, 0.25);
+            letter-spacing: -0.01em;
         }
 
-        button.action-btn:hover { filter: brightness(1.1); }
-        button.action-btn:active { transform: scale(0.97); }
-        button.action-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        button.action-btn:hover {
+            transform: translate(2px, 3px) scale(1.03);
+            box-shadow: -1px -1px 4px rgba(224, 142, 11, 0.08), 3px 5px 14px rgba(224, 142, 11, 0.26);
+            filter: brightness(1.06);
+        }
+        button.action-btn:active {
+            transform: scale(0.96);
+            box-shadow: 0 1px 4px rgba(224, 142, 11, 0.2);
+            transition: all 0.06s var(--ease-in-out-expo);
+        }
+        button.action-btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+            filter: grayscale(0.4);
+        }
 
         .btn-sm {
             padding: 10px 18px !important;
-            font-size: 14px !important;
+            font-size: 13px !important;
             min-height: 40px !important;
+            border-radius: var(--radius-sm) !important;
         }
 
         .api-row {
@@ -304,28 +420,31 @@
         .security-note {
             font-size: 12px;
             color: var(--text-muted);
-            margin-top: 8px;
-            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+            margin-top: 10px;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
+            letter-spacing: 0.01em;
         }
 
         /* ======== 最近查询历史 ======== */
         .history-section {
-            margin-bottom: 30px;
-            padding: 15px 20px;
+            margin-bottom: 32px;
+            padding: 18px 22px;
             background: var(--bg-color);
-            border-radius: 8px;
+            border-radius: var(--radius-lg);
             border: 1px solid var(--border-color);
-            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
+            transition: all 0.4s var(--ease-out-expo);
         }
 
         .history-title {
-            font-size: 14px;
-            font-weight: bold;
+            font-size: 13px;
+            font-weight: 600;
             color: var(--text-muted);
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            letter-spacing: -0.01em;
         }
 
         .history-list {
@@ -335,25 +454,44 @@
         }
 
         .history-item {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
             color: var(--text-main);
-            padding: 8px 16px;
-            border-radius: 6px;
+            padding: 9px 18px;
+            border-radius: var(--radius-md);
             font-size: 16px;
             font-family: "Times New Roman", serif;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
-            min-height: 40px;
+            transition: all 0.35s var(--ease-spring);
+            min-height: 42px;
             display: flex;
             align-items: center;
             gap: 6px;
             -webkit-tap-highlight-color: transparent;
+            box-shadow: var(--shadow-sm);
+            opacity: 0;
+            animation: historyItemIn 0.5s var(--ease-out-expo) forwards;
         }
 
-        .history-item:hover { border-color: var(--c-title-2); color: var(--c-title-2); }
-        .history-item:active { background: var(--border-color); }
+        @keyframes historyItemIn {
+            from { opacity: 0; transform: translateY(8px) scale(0.94); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .history-item:hover {
+            border-color: var(--c-title-2);
+            color: var(--c-title-2);
+            transform: translate(3px, 3px) scale(1.04);
+            box-shadow: -2px -2px 5px rgba(224, 142, 11, 0.06), 3px 4px 12px rgba(0, 0, 0, 0.10);
+        }
+        .history-item:active {
+            background: var(--clickable-active-bg);
+            transform: scale(0.96);
+            transition: all 0.06s var(--ease-in-out-expo);
+        }
 
         .history-item .cache-icon {
             font-size: 12px;
@@ -363,56 +501,68 @@
         .clear-history {
             color: var(--c-title-5);
             cursor: pointer;
-            font-weight: bold;
-            transition: opacity 0.2s;
+            font-weight: 600;
+            transition: opacity 0.3s var(--ease-out-expo);
             padding: 4px 8px;
             min-height: 32px;
             display: flex;
             align-items: center;
+            font-size: 13px;
         }
-        .clear-history:hover { opacity: 0.7; }
+        .clear-history:hover { opacity: 0.65; }
 
         /* ======== 状态消息 ======== */
         #statusMessage {
             text-align: center;
             margin: 20px 0;
-            padding: 15px;
-            font-weight: bold;
-            border-radius: 8px;
-            font-family: -apple-system, sans-serif;
+            padding: 16px;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
             display: none;
             word-break: break-word;
+            animation: statusSlideIn 0.45s var(--ease-spring);
+            letter-spacing: -0.01em;
         }
-        .loading { color: var(--c-title-2); background: rgba(217, 119, 6, 0.1); }
-        .success { color: var(--c-title-4); background: rgba(22, 163, 74, 0.1); }
-        .error { color: var(--c-title-8); background: rgba(220, 38, 38, 0.1); }
+        @keyframes statusSlideIn {
+            from { opacity: 0; transform: translateY(-8px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .loading { color: var(--c-title-2); background: rgba(224, 142, 11, 0.08); }
+        .success { color: var(--c-title-4); background: rgba(48, 181, 78, 0.08); }
+        .error { color: var(--c-title-8); background: rgba(230, 57, 70, 0.08); }
 
         /* 流式输出光标动画 */
         .cursor-blink {
             display: inline-block;
-            width: 8px;
-            height: 18px;
-            background-color: var(--c-title-2);
+            width: 3px;
+            height: 20px;
+            background: linear-gradient(180deg, var(--c-title-2), var(--c-title-6));
             vertical-align: middle;
             margin-left: 4px;
-            animation: blink 1s step-end infinite;
+            border-radius: 2px;
+            animation: cursorPulse 1.2s ease-in-out infinite;
         }
-        @keyframes blink { 50% { opacity: 0; } }
+        @keyframes cursorPulse {
+            0%, 100% { opacity: 1; transform: scaleY(1); }
+            50% { opacity: 0.3; transform: scaleY(0.7); }
+        }
 
         /* ======== 结果渲染区 ======== */
         #result {
-            margin-top: 30px;
-            padding-top: 30px;
-            border-top: 2px solid var(--border-color);
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid transparent;
+            border-image: linear-gradient(90deg, transparent, var(--border-color), transparent) 1;
             display: none;
             font-size: 1.15rem;
-            animation: fadeIn 0.4s ease;
+            animation: resultReveal 0.55s var(--ease-out-expo);
             overflow-wrap: break-word;
             word-wrap: break-word;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+        @keyframes resultReveal {
+            from { opacity: 0; transform: translateY(16px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -420,8 +570,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 16px;
+            gap: 10px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
 
@@ -432,31 +582,35 @@
         }
 
         .nav-indicator {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-muted);
-            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
             min-width: 40px;
             text-align: center;
             font-weight: 600;
+            letter-spacing: -0.01em;
         }
 
         /* ======== 可点击单词 ======== */
         .clickable-word {
             color: var(--c-title-2);
             cursor: pointer;
-            border-bottom: 1.5px dashed var(--c-title-2);
-            border-bottom: 1.5px dashed color-mix(in srgb, var(--c-title-2) 50%, transparent);
-            transition: all 0.15s ease;
-            padding: 1px 2px;
-            margin: 0 1px;
-            border-radius: 3px;
+            border-bottom: 1.5px dashed color-mix(in srgb, var(--c-title-2) 45%, transparent);
+            transition: all 0.35s var(--ease-spring);
+            padding: 2px 5px;
+            margin: 0 2px;
+            border-radius: 5px;
             position: relative;
+            display: inline-block;
         }
 
         .clickable-word:hover {
             background-color: var(--clickable-hover-bg);
             border-bottom-style: solid;
             border-bottom-color: var(--c-title-2);
+            transform: translate(4px, 4px) scale(1.07);
+            box-shadow: -2px -2px 6px rgba(224, 142, 11, 0.10), 3px 4px 10px rgba(0, 0, 0, 0.12);
+            z-index: 2;
         }
 
         .clickable-word:active,
@@ -464,32 +618,34 @@
             background-color: var(--c-title-2);
             color: #fff;
             border-bottom-color: transparent;
-            border-radius: 4px;
-            transition: none;
+            border-radius: 5px;
+            transform: scale(1.12);
+            transition: all 0.10s var(--ease-spring);
         }
 
         /* ======== 右键查询菜单 ======== */
         .context-menu {
             position: fixed;
             z-index: 2000;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22), 0 0 0 1px rgba(0,0,0,0.04);
+            background: var(--glass-bg);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl), 0 0 0 1px rgba(0,0,0,0.04);
             padding: 8px 0;
             min-width: 220px;
             max-width: 380px;
             display: none;
-            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
-            backdrop-filter: blur(10px);
-            animation: ctxMenuIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
+            animation: ctxMenuIn 0.22s var(--ease-spring);
             transform-origin: top left;
         }
         [data-theme="dark"] .context-menu {
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255,255,255,0.05);
+            box-shadow: var(--shadow-xl), 0 0 0 1px rgba(255,255,255,0.04);
         }
         @keyframes ctxMenuIn {
-            from { opacity: 0; transform: scale(0.9) translateY(-6px); }
+            from { opacity: 0; transform: scale(0.88) translateY(-8px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
@@ -502,7 +658,7 @@
             text-overflow: ellipsis;
             font-family: "Times New Roman", "Georgia", serif;
             font-style: italic;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.02em;
             border-bottom: 1px solid var(--border-color);
             margin: 0 6px 6px;
         }
@@ -510,79 +666,98 @@
         .context-menu .ctx-item {
             padding: 11px 18px;
             cursor: pointer;
-            font-size: 14.5px;
+            font-size: 14px;
             font-weight: 600;
             color: var(--text-main);
-            transition: all 0.12s ease;
+            transition: all 0.25s var(--ease-spring);
             display: flex;
             align-items: center;
             gap: 10px;
             user-select: none;
             margin: 0 4px;
-            border-radius: 7px;
-            letter-spacing: 0.2px;
+            border-radius: var(--radius-sm);
+            letter-spacing: -0.01em;
         }
         .context-menu .ctx-item:hover {
             background: var(--clickable-bg);
             color: var(--c-title-2);
+            transform: translateX(3px) scale(1.02);
         }
         .context-menu .ctx-item:active {
             background: var(--clickable-hover-bg);
-            transform: scale(0.98);
+            transform: scale(0.97);
+            transition: all 0.06s var(--ease-in-out-expo);
         }
 
         .context-menu .ctx-icon {
             width: 32px;
             height: 32px;
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 16px;
             background: var(--clickable-bg);
             flex-shrink: 0;
+            transition: transform 0.3s var(--ease-spring);
+        }
+        .context-menu .ctx-item:hover .ctx-icon {
+            transform: scale(1.1);
         }
 
         .context-menu .ctx-shortcut {
             margin-left: auto;
             font-size: 11px;
             color: var(--text-muted);
-            opacity: 0.6;
+            opacity: 0.5;
             font-weight: 500;
-            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
+            letter-spacing: 0.02em;
         }
 
         /* ======== 考试标签 ======== */
         .exam-tag {
             display: inline-block;
-            padding: 2px 10px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: bold;
+            padding: 3px 11px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
             margin: 0 4px;
             color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
+            letter-spacing: 0.01em;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            transition: transform 0.3s var(--ease-spring);
         }
-        .tag-cet4 { background-color: var(--tag-cet4); }
-        .tag-cet6 { background-color: var(--tag-cet6); }
-        .tag-ielts { background-color: var(--tag-ielts); }
-        .tag-toefl { background-color: var(--tag-toefl); }
-        .tag-ky { background-color: var(--tag-ky); }
-        .tag-core { background-color: var(--tag-core); }
+        .exam-tag:hover {
+            transform: translateY(-2px) scale(1.06);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .tag-cet4 { background: linear-gradient(135deg, #30b54e, #28a242); }
+        .tag-cet6 { background: linear-gradient(135deg, #0ea89a, #0a8f82); }
+        .tag-ielts { background: linear-gradient(135deg, #6c47ff, #5a35e0); }
+        .tag-toefl { background: linear-gradient(135deg, #e08e0b, #c97a05); }
+        .tag-ky { background: linear-gradient(135deg, #e63946, #d42a38); }
+        .tag-core { background: linear-gradient(135deg, #e0407b, #d0306a); }
 
         /* ======== 结果排版 ======== */
-        #result h1 { font-size: 1.6em; margin-bottom: 25px; color: var(--text-main); }
+        #result h1 { font-size: 1.55em; margin-bottom: 28px; color: var(--text-main); font-weight: 700; letter-spacing: -0.02em; }
         #result h2 {
-            font-size: 2em;
+            font-size: 1.9em;
             color: var(--text-main);
-            margin-top: 30px;
-            margin-bottom: 25px;
-            font-weight: bold;
+            margin-top: 32px;
+            margin-bottom: 28px;
+            font-weight: 700;
             border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
+            padding-bottom: 12px;
+            letter-spacing: -0.02em;
         }
-        #result p { margin: 12px 0; }
-        #result strong { color: var(--highlight-bold); font-weight: bold; }
+        #result p { margin: 12px 0; line-height: 1.85; }
+        #result strong { color: var(--highlight-bold); font-weight: 700; }
+        /* TOC 锚点跳转偏移：避免标题贴住浏览器顶部 */
+        #result [id^="sec-"] {
+            scroll-margin-top: 88px;
+        }
         #result strong.title-1 { color: var(--c-title-1) !important; font-size: 1.05em; }
         #result strong.title-2 { color: var(--c-title-2) !important; font-size: 1.05em; }
         #result strong.title-3 { color: var(--c-title-3) !important; font-size: 1.05em; }
@@ -594,18 +769,19 @@
         #result strong.title-9 { color: var(--c-title-9) !important; font-size: 1.05em; }
         #result strong.title-10 { color: var(--c-title-10) !important; font-size: 1.05em; }
         #result ul, #result ol { padding-left: 24px; margin: 16px 0; color: var(--text-main); }
-        #result li { margin-bottom: 18px; line-height: 1.8; }
+        #result li { margin-bottom: 20px; line-height: 1.85; }
         #result li ul li { color: var(--text-example); margin-bottom: 10px; list-style-type: circle; }
         #result blockquote {
-            border-left: 4px solid var(--c-title-2);
-            margin: 20px 0;
-            padding: 12px 20px;
+            border-left: 3px solid var(--c-title-2);
+            margin: 22px 0;
+            padding: 14px 22px;
             color: var(--text-muted);
-            background: rgba(0, 0, 0, 0.02);
-            border-radius: 0 8px 8px 0;
+            background: rgba(0, 0, 0, 0.015);
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
             font-weight: normal;
+            font-style: italic;
         }
-        [data-theme="dark"] #result blockquote { background: rgba(255, 255, 255, 0.03); }
+        [data-theme="dark"] #result blockquote { background: rgba(255, 255, 255, 0.02); }
 
         /* ======== 生词本弹窗 (Modal) ======== */
         .modal-overlay {
@@ -614,15 +790,16 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 1000;
             opacity: 0;
-            transition: opacity 0.3s ease;
-            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+            transition: opacity 0.35s var(--ease-out-expo);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
         }
         .modal-overlay.show {
             display: flex;
@@ -632,22 +809,22 @@
         .modal-content {
             background: var(--bg-color);
             width: 90%;
-            max-width: 600px;
+            max-width: 620px;
             max-height: 85vh;
-            border-radius: 16px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-xl);
             display: flex;
             flex-direction: column;
-            transform: translateY(20px);
-            transition: transform 0.3s ease;
+            transform: translateY(24px) scale(0.96);
+            transition: transform 0.45s var(--ease-spring);
         }
         .modal-overlay.show .modal-content {
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
 
         .modal-header {
-            padding: 20px 24px;
+            padding: 22px 26px;
             border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
@@ -655,25 +832,32 @@
         }
         .modal-header h2 {
             margin: 0;
-            font-size: 1.2em;
+            font-size: 1.15em;
             color: var(--text-main);
+            font-weight: 700;
+            letter-spacing: -0.01em;
         }
         .modal-close {
             cursor: pointer;
-            font-size: 1.5em;
+            font-size: 1.4em;
             color: var(--text-muted);
             line-height: 1;
-            padding: 0 8px;
+            padding: 4px 10px;
             border: none;
             background: none;
-            transition: color 0.2s;
+            border-radius: var(--radius-sm);
+            transition: all 0.3s var(--ease-spring);
         }
         .modal-close:hover {
             color: var(--c-title-8);
+            background: rgba(230, 57, 70, 0.08);
+        }
+        .modal-close:active {
+            transform: scale(0.9);
         }
 
         .modal-body {
-            padding: 20px 24px;
+            padding: 22px 26px;
             overflow-y: auto;
             flex: 1;
         }
@@ -681,23 +865,26 @@
         .vocab-controls {
             display: flex;
             gap: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 22px;
             flex-wrap: wrap;
         }
 
         .vocab-search {
             flex: 1;
             min-width: 140px;
-            padding: 10px 14px;
-            border-radius: 8px;
-            border: 2px solid var(--border-color);
+            padding: 10px 16px;
+            border-radius: var(--radius-md);
+            border: 1.5px solid var(--border-color);
             background: var(--input-bg);
             color: var(--text-main);
             font-size: 15px;
             outline: none;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
+            transition: all 0.3s var(--ease-out-expo);
         }
         .vocab-search:focus {
             border-color: var(--c-title-3);
+            box-shadow: 0 0 0 3px rgba(108, 71, 255, 0.1);
         }
 
         .vocab-grid {
@@ -707,27 +894,42 @@
         }
 
         .vocab-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 12px 16px;
-            border-radius: 8px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            padding: 14px 18px;
+            border-radius: var(--radius-md);
             text-align: center;
             font-family: "Times New Roman", serif;
             font-size: 18px;
-            font-weight: bold;
+            font-weight: 700;
             color: var(--text-main);
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.35s var(--ease-spring);
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
+            box-shadow: var(--shadow-sm);
+            opacity: 0;
+            animation: vocabCardIn 0.5s var(--ease-out-expo) forwards;
         }
+
+        @keyframes vocabCardIn {
+            from { opacity: 0; transform: translateY(12px) scale(0.93); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
         .vocab-card:hover {
             border-color: var(--c-title-3);
             color: var(--c-title-3);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transform: translate(3px, 4px) scale(1.04);
+            box-shadow: -2px -2px 6px rgba(108, 71, 255, 0.06), 4px 5px 16px rgba(0, 0, 0, 0.12);
+        }
+        .vocab-card:active {
+            transform: scale(0.95);
+            transition: all 0.06s var(--ease-in-out-expo);
         }
 
         .vocab-card .word-text {
@@ -737,12 +939,12 @@
 
         .vocab-card .delete-word {
             position: absolute;
-            top: -6px;
-            right: -6px;
-            width: 22px;
-            height: 22px;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
-            background: var(--c-title-8);
+            background: linear-gradient(135deg, var(--c-title-8), #d42a38);
             color: #fff;
             border: none;
             font-size: 12px;
@@ -752,40 +954,48 @@
             align-items: center;
             justify-content: center;
             padding: 0;
-            transition: transform 0.15s;
+            transition: all 0.3s var(--ease-spring);
+            box-shadow: 0 2px 6px rgba(230, 57, 70, 0.3);
         }
         .vocab-card:hover .delete-word {
             display: flex;
+            animation: popIn 0.3s var(--ease-spring);
+        }
+        @keyframes popIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
         }
         .vocab-card .delete-word:hover {
-            transform: scale(1.2);
+            transform: scale(1.25);
         }
 
         .empty-vocab {
             text-align: center;
             color: var(--text-muted);
-            padding: 40px 0;
+            padding: 50px 0;
             font-size: 14px;
+            letter-spacing: 0.01em;
         }
 
         /* ======== 响应式适配 ======== */
         @media (max-width: 768px) {
-            body { padding: 20px 14px; font-size: 16px; }
-            .container { padding: 24px 18px; border-radius: 12px; }
+            body { padding: 24px 16px; font-size: 20px; }
+            .container { padding: 28px 20px; border-radius: var(--radius-lg); }
             .header h1 { font-size: 1.35em; }
             #result h2 { font-size: 1.5em; }
             .result-toolbar { gap: 6px; }
         }
 
         @media (max-width: 640px) {
-            body { padding: 12px 10px; font-size: 15px; line-height: 1.7; }
-            .container { padding: 18px 14px; border-radius: 10px; }
+            body { padding: 14px 12px; font-size: 19px; line-height: 1.7; }
+            body::before { display: none; }
+            .container { padding: 20px 16px; border-radius: var(--radius-md); }
             .header h1 { font-size: 1.2em; }
             .top-nav { flex-direction: column; align-items: stretch; gap: 12px; }
             .nav-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
             .btn-secondary { justify-content: center; }
             .input-group { flex-wrap: wrap; gap: 8px; }
-            .input-label { min-width: auto; font-size: 14px; }
+            .input-label { min-width: auto; font-size: 13px; }
             input[type="text"], input[type="password"] { font-size: 16px; padding: 12px 14px; width: 100%; }
             button.action-btn { width: 100%; text-align: center; min-height: 48px; font-size: 15px; }
             .api-row { flex-wrap: wrap; }
@@ -796,10 +1006,278 @@
             .history-list { gap: 6px; }
             .result-toolbar { flex-direction: column; align-items: stretch; }
             .nav-buttons { justify-content: center; }
-            .modal-content { width: 95%; max-height: 90vh; }
-            .vocab-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+            .modal-content { width: 95%; max-height: 90vh; border-radius: var(--radius-lg); }
+            .vocab-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
+            .vocab-card { padding: 12px 14px; font-size: 16px; }
             .vocab-card .delete-word { display: flex; }
             .vocab-controls { flex-direction: column; }
+            .side-sweep-btn { animation: none; }
+        }
+
+        /* ======== 目录导航侧边栏 (桌面端) ======== */
+        .toc-sidebar {
+            position: fixed;
+            right: max(16px, calc((100vw - 880px) / 2 - 200px));
+            top: 120px;
+            width: 170px;
+            max-height: calc(100vh - 200px);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            padding: 0;
+            z-index: 100;
+            opacity: 0;
+            transform: translateX(20px);
+            pointer-events: none;
+            transition: all 0.45s var(--ease-in-out-expo);
+            overflow: visible;
+            display: flex;
+            flex-direction: column;
+        }
+        .toc-sidebar.visible {
+            cursor: grab;
+        }
+        .toc-sidebar.visible:active {
+            cursor: grabbing;
+        }
+        .toc-sidebar.visible .toc-header {
+            cursor: grab;
+        }
+        .toc-sidebar.visible:active .toc-header {
+            cursor: grabbing;
+        }
+        .toc-sidebar .toc-header {
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            overflow: hidden;
+        }
+        .toc-sidebar.visible {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: auto;
+        }
+
+        /* 左侧模式 */
+        .toc-sidebar.left {
+            right: auto;
+            left: max(16px, calc((100vw - 880px) / 2 - 200px));
+            transform: translateX(-20px);
+        }
+        .toc-sidebar.left.visible {
+            transform: translateX(0);
+        }
+
+        .toc-header {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-main);
+            padding: 14px 16px 12px;
+            border-bottom: 1px solid var(--border-color);
+            letter-spacing: -0.01em;
+            flex-shrink: 0;
+        }
+
+        .toc-sidebar .toc-list {
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 8px 0;
+            flex: 1;
+        }
+
+        .toc-item {
+            display: block;
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            border-left: 2px solid transparent;
+            color: var(--text-muted);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
+            font-size: 12.5px;
+            font-weight: 500;
+            padding: 8px 14px 8px 12px;
+            cursor: pointer;
+            transition: all 0.25s var(--ease-out-expo);
+            letter-spacing: -0.01em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .toc-item:hover {
+            color: var(--c-title-2);
+            background: var(--clickable-bg);
+            border-left-color: var(--c-title-2);
+            padding-left: 16px;
+        }
+        .toc-item.active {
+            color: var(--c-title-2);
+            font-weight: 700;
+            border-left-color: var(--c-title-2);
+            background: var(--clickable-bg);
+        }
+
+        /* 侧边栏边缘标签式箭头 — 完全贴在框外，零重叠 */
+        .toc-edge-arrow {
+            position: absolute;
+            top: 50%;
+            left: -21px;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 36px;
+            border-radius: 5px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.35s var(--ease-spring);
+            z-index: 99;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .toc-edge-arrow:hover {
+            color: var(--c-title-2);
+            border-color: var(--c-title-2);
+            box-shadow: var(--shadow-md);
+        }
+        .toc-edge-arrow:active {
+            transform: translateY(-50%) scale(0.92);
+            transition: all 0.06s var(--ease-in-out-expo);
+        }
+
+        /* 左侧模式：标签翻到右边框外 */
+        .toc-sidebar.left .toc-edge-arrow {
+            left: auto;
+            right: -21px;
+        }
+
+        /* 桌面端宽度不够时隐藏侧边栏 */
+        @media (max-width: 1100px) {
+            .toc-sidebar { display: none !important; }
+        }
+
+        /* ======== 移动端目录按钮 ======== */
+        .toc-toggle {
+            display: none;
+            position: fixed;
+            right: 24px;
+            bottom: 200px;
+            z-index: 998;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.35s var(--ease-spring);
+            align-items: center;
+            justify-content: center;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .toc-toggle:active {
+            transform: scale(0.9);
+            transition: all 0.06s var(--ease-in-out-expo);
+        }
+        .toc-toggle.visible { display: flex; }
+
+        @media (max-width: 1100px) {
+            .toc-toggle.visible { display: flex; }
+        }
+
+        @media (max-width: 640px) {
+            .toc-toggle {
+                right: 12px;
+                bottom: 150px;
+                width: 42px;
+                height: 42px;
+                font-size: 18px;
+            }
+        }
+
+        /* ======== 移动端目录浮层 ======== */
+        .toc-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 2001;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            justify-content: center;
+            align-items: flex-end;
+        }
+        .toc-overlay.show {
+            display: flex;
+        }
+
+        .toc-panel {
+            width: 100%;
+            max-width: 500px;
+            max-height: 70vh;
+            background: var(--bg-color);
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+            box-shadow: var(--shadow-xl);
+            display: flex;
+            flex-direction: column;
+            animation: tocSlideUp 0.4s var(--ease-spring);
+        }
+        @keyframes tocSlideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .toc-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 22px;
+            border-bottom: 1px solid var(--border-color);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-main);
+            flex-shrink: 0;
+        }
+        .toc-panel-close {
+            background: none;
+            border: none;
+            font-size: 22px;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s;
+        }
+        .toc-panel-close:hover { color: var(--c-title-8); }
+
+        .toc-panel .toc-list {
+            overflow-y: auto;
+            padding: 8px 0;
+            flex: 1;
+        }
+        .toc-panel .toc-item {
+            font-size: 14px;
+            padding: 12px 22px;
+        }
+
+        /* 桌面端隐藏移动目录按钮和浮层 */
+        @media (min-width: 1101px) {
+            .toc-toggle { display: none !important; }
+            .toc-overlay { display: none !important; }
         }
     </style>
 </head>
@@ -807,7 +1285,7 @@
 
 <div class="top-nav">
     <div class="header">
-        <h1>📖 多彩词汇解析 v8</h1>
+        <h1>📖 多彩词汇解析 v9</h1>
     </div>
     <div class="nav-actions">
         <button class="btn-secondary" onclick="openVocabBook()" aria-label="打开生词本">
@@ -833,7 +1311,7 @@
 
     <div class="input-group">
         <label class="input-label" for="wordInput">查询内容：</label>
-        <input type="text" id="wordInput" placeholder="输入单词或短语，按回车查询..." maxlength="200" onkeydown="handleKeyDown(event)" autocomplete="off">
+        <input type="text" id="wordInput" placeholder="输入英文单词/短语 或 中文词语/句子，按回车查询..." maxlength="200" onkeydown="handleKeyDown(event)" autocomplete="off">
         <button class="action-btn" id="searchBtn" onclick="manualSearch()">生成解析</button>
     </div>
 
@@ -895,6 +1373,27 @@
 <!-- 侧边悬浮清理按钮 -->
 <button class="side-sweep-btn" onclick="clearQueryCache()" title="清理查询缓存" aria-label="清理查询缓存">🧹</button>
 
+<!-- 桌面端目录侧边栏 -->
+<nav class="toc-sidebar" id="tocSidebar">
+    <div class="toc-header">📑 目录导航</div>
+    <div class="toc-list" id="tocList"></div>
+    <button class="toc-edge-arrow" id="tocEdgeArrow" onclick="toggleTocSide()" title="切换到左侧" aria-label="切换目录到另一侧">◀</button>
+</nav>
+
+<!-- 移动端目录按钮 -->
+<button class="toc-toggle" id="tocToggle" title="目录导航" aria-label="打开目录导航">📑</button>
+
+<!-- 移动端目录浮层 -->
+<div class="toc-overlay" id="tocOverlay" onclick="closeTocOverlay(event)">
+    <div class="toc-panel" onclick="event.stopPropagation()">
+        <div class="toc-panel-header">
+            <span>📑 快速跳转</span>
+            <button class="toc-panel-close" onclick="closeTocOverlay()" aria-label="关闭目录">×</button>
+        </div>
+        <div class="toc-list" id="tocListMobile"></div>
+    </div>
+</div>
+
 <script>
     // ======== 核心常量 ========
     const API_ENDPOINT = 'https://api.deepseek.com/chat/completions';
@@ -927,6 +1426,7 @@
         initApiSection();
         initModalEscape();
         initKeyboardShortcuts();
+        initTocDrag();
         // 页面加载时若 URL 带查询参数，自动恢复
         initFromURL();
     });
@@ -998,12 +1498,19 @@
         localStorage.setItem(STORAGE_KEYS.API_KEY, key);
         const btn = document.getElementById('saveKeyBtn');
         btn.innerText = '✓ 已保存';
-        btn.style.backgroundColor = '#16a34a';
+        btn.style.backgroundColor = '#30b54e';
         btn.style.color = '#fff';
+        btn.style.transform = 'scale(1.04)';
+        btn.style.transition = 'all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        setTimeout(() => {
+            btn.style.transform = 'scale(1)';
+        }, 300);
         setTimeout(() => {
             btn.innerText = '已保存';
             btn.style.backgroundColor = '';
             btn.style.color = '';
+            btn.style.transform = '';
+            btn.style.transition = '';
         }, 2000);
     }
 
@@ -1048,12 +1555,28 @@
         setTimeout(() => el.style.transform = 'translateX(0)', 300);
     }
 
+    function hasChinese(text) {
+        // 检测是否包含中文字符（含基本汉字、扩展区、标点）
+        return /[一-鿿㐀-䶿豈-﫿　-〿＀-￯]/.test(text);
+    }
+
     function validateInput(input) {
-        // 允许字母、连字符、撇号、空格（支持单词、短语、短句）
+        // 检测输入类型
+        const isChinese = hasChinese(input);
+
+        if (isChinese) {
+            // 中文输入：保留中文字符、中文标点、英文字母、数字、空格
+            const cleaned = input.replace(/[^一-鿿㐀-䶿豈-﫿　-〿＀-￯a-zA-Z0-9\s\-']/g, '').trim();
+            if (!cleaned) return { valid: false, error: '请输入有效的中文内容' };
+            if (cleaned.length > MAX_INPUT_LENGTH) return { valid: false, error: `输入内容不能超过 ${MAX_INPUT_LENGTH} 个字符` };
+            return { valid: true, cleaned, isChinese: true };
+        }
+
+        // 英文输入：允许字母、连字符、撇号、空格（支持单词、短语、短句）
         const cleaned = input.replace(/[^a-zA-Z\-'\s]/g, '').trim();
         if (!cleaned) return { valid: false, error: '请输入有效的英语内容' };
         if (cleaned.length > MAX_INPUT_LENGTH) return { valid: false, error: `输入内容不能超过 ${MAX_INPUT_LENGTH} 个字符` };
-        return { valid: true, cleaned };
+        return { valid: true, cleaned, isChinese: false };
     }
 
     // ======== 导航历史栈管理 ========
@@ -1127,6 +1650,7 @@
             document.getElementById('resultContent').innerHTML = entry.html;
             document.getElementById('result').style.display = 'block';
             makeWordsClickable(document.getElementById('resultContent'));
+            buildTOC();
             hideStatus();
         } else {
             // 缓存未命中（极端情况），当作全新手动搜索
@@ -1248,6 +1772,7 @@
                     document.getElementById('resultContent').innerHTML = cached;
                     document.getElementById('result').style.display = 'block';
                     makeWordsClickable(document.getElementById('resultContent'));
+                    buildTOC();
                     // 页面加载/刷新 → 永远重置为单条目，不受 localStorage 旧栈影响
                     navStack = [{ word, html: cached }];
                     navIndex = 0;
@@ -1343,6 +1868,8 @@
         // 重置 UI：清空结果区、隐藏历史区、更新导航按钮
         document.getElementById('result').style.display = 'none';
         document.getElementById('resultContent').innerHTML = '';
+        document.getElementById('tocSidebar').classList.remove('visible');
+        document.getElementById('tocToggle').classList.remove('visible');
         renderHistory();
         updateNavButtons();
 
@@ -1367,9 +1894,10 @@
         }
         historySection.style.display = 'block';
         historyList.innerHTML = '';
-        searchHistory.forEach(word => {
+        searchHistory.forEach((word, index) => {
             const span = document.createElement('span');
             span.className = 'history-item';
+            span.style.animationDelay = `${index * 0.04}s`;
             const isCached = localStorage.getItem(STORAGE_KEYS.WORD_CACHE_PREFIX + word);
             span.innerHTML = `${word}${isCached ? ' <span class="cache-icon">⚡</span>' : ''}`;
             span.onclick = () => {
@@ -1676,9 +2204,10 @@
             return;
         }
 
-        wordsArray.forEach(word => {
+        wordsArray.forEach((word, index) => {
             const card = document.createElement('div');
             card.className = 'vocab-card';
+            card.style.animationDelay = `${index * 0.03}s`;
 
             const wordText = document.createElement('span');
             wordText.className = 'word-text';
@@ -1813,7 +2342,8 @@
             shakeElement(document.getElementById('wordInput'));
             return;
         }
-        const word = validation.cleaned.toLowerCase();
+        const isChineseInput = validation.isChinese === true;
+        const word = isChineseInput ? validation.cleaned : validation.cleaned.toLowerCase();
         document.getElementById('wordInput').value = word;
 
         // 3. 检查本地缓存
@@ -1825,6 +2355,7 @@
             resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
             addHistory(word, cachedHtml);
             makeWordsClickable(resultContent);
+            buildTOC();
             pushNavState(word, cachedHtml);
             setTimeout(hideStatus, 1500);
             return;
@@ -1853,7 +2384,7 @@
                 body: JSON.stringify({
                     model: MODEL_NAME,
                     messages: [
-                        { role: 'system', content: buildSystemPrompt(word.includes(' ')) },
+                        { role: 'system', content: buildSystemPrompt(word, isChineseInput) },
                         { role: 'user', content: word },
                     ],
                     temperature: 0.2,
@@ -1888,7 +2419,7 @@
                 try {
                     pendingRender = false;
                     lastRenderTime = performance.now();
-                    const cleaned = collapseRepeatedLines(markdownAcc);
+                    const cleaned = fixMarkdownHeadings(collapseRepeatedLines(markdownAcc));
                     let htmlHtml = marked.parse(cleaned);
                     htmlHtml = applyExamTags(htmlHtml);
                     htmlHtml = applyTitleColors(htmlHtml);
@@ -2020,6 +2551,7 @@
             hideStatus();
             addHistory(word, finalHtml);
             makeWordsClickable(resultContent);
+            buildTOC();
             pushNavState(word, finalHtml);
 
         } catch (error) {
@@ -2056,6 +2588,11 @@
             /^Of\s+course[!,]?\s*(here\s+is\s+)?(the\s+)?analysis\s+of\s+[「「"“”]*.*?[」」"“”]*[.:]?\s*/i,
             /^Certainly[!,]?\s*(here\s+is\s+)?(the\s+)?analysis\s+of\s+[「「"“”]*.*?[」」"“”]*[.:]?\s*/i,
             /^好的[，,]\s*请查收[您你]对单词[「「"“”]*\w+[」」"“”]*的详细解析[。.！!]?\s*\n*/i,
+            // 中文翻译模式的开场白
+            /^好的[，,]?\s*请查收[您你]对[「「"“”]*.*?[」」"“”]*的[中译英|翻译|英文对应].*/i,
+            /^以下是[「「"“”]*.*?[」」"“”]*的[中译英|翻译结果|英文翻译|对应英文].*/i,
+            /^Here\s+(is|are)\s+(the\s+)?(English\s+)?translation[s]?\s+(of|for)\s+[「「"“”]*.*?[」」"“”]*[.:]?\s*/i,
+            /^Below\s+(is|are)\s+(the\s+)?(English\s+)?equivalent[s]?\s+(of|for)\s+[「「"“”]*.*?[」」"“”]*[.:]?\s*/i,
         ];
 
         let cleaned = markdown;
@@ -2067,9 +2604,167 @@
         return cleaned.trim();
     }
 
-    function buildSystemPrompt(isPhrase) {
-        if (isPhrase) {
-            // ====== 短语/句子查询模板 ======
+    function buildSystemPrompt(userInput, isChinese) {
+        // ====== 中文 → 英文翻译 ======
+        if (isChinese) {
+            const chLen = userInput.replace(/[^一-鿿㐀-䶿]/g, '').length;
+            if (chLen <= 3) {
+                // 单个中文词/字 → 同义词罗盘
+                return `你是一位精通中英双语的翻译专家。用户输入的是单个中文词语，请严格按照以下模板输出它的英文对应词库。
+
+【强指令要求】：
+1. 绝对不要输出任何打招呼、废话或过渡句！立刻直接从"# 【同义词罗盘】"这行开始输出！
+2. 核心任务是穷尽式地列出该中文词在英语中所有可能的对应单词/短语，多多益善，但每一个都必须真实存在且语义吻合，绝不允许编造！
+3. 同义词按语域和使用场景分组（日常口语 / 书面正式 / 文学雅致 / 专业术语等），帮助用户理解每个词的适用语境。
+4. 每个英文单词后面必须紧跟音标，音标一律用方括号 [] 包裹，严禁使用斜杠 // 或其他符号！
+5. 排版要求：每个独立的翻译项目之间必须插入一个空行（即两个换行），绝不允许两个不同的内容条目挤在同一段里！这关系到阅读体验，非常重要。
+
+# 【同义词罗盘】：[用户输入的中文词] → English Equivalents
+
+## 核心词义
+[用一句英文概括该中文词的核心含义，再用中文简述]
+
+## 同义词族
+
+### 日常口语
+
+- **[英文单词1]** [音标] — 【词性】中文释义 | 使用场景/语气说明
+
+- **[英文单词2]** [音标] — 【词性】中文释义 | 使用场景/语气说明
+
+*(列出 3~8 个，多多益善但必须真实，条目之间必须用空行隔开)*
+
+### 书面正式
+
+- **[英文单词1]** [音标] — 【词性】中文释义 | 使用场景/语气说明
+
+*(同上，列出 3~8 个，条目之间必须用空行隔开)*
+
+### 文学雅致 / 高级表达
+
+- **[英文单词1]** [音标] — 【词性】中文释义 | 使用场景/语气说明
+
+*(如有，列出 2~5 个，确实没有就写"本词暂无此语域对应词")*
+
+### 专业术语（如有）
+
+- **[英文单词1]** [音标] — 【词性】中文释义 | 所属领域
+
+*(如有，列出 1~5 个；如无，写"无特定专业术语对应")*
+
+## 使用场景辨析
+
+[挑选 3~5 组最容易用错的近义词，用中文说明它们之间的微妙区别和使用场景差异。每组之间必须用空行隔开]
+
+## 例句
+
+- [至少 3 个不同场景的英文例句及中文回译，覆盖口语、书面、特定语境]
+
+- [每个例句标注使用的对应英文词]`;
+
+            } else if (chLen <= 12) {
+                // 中文短语 → 译法多解
+                return `你是一位精通中英双语的翻译专家。用户输入的是一个中文短语/短句，请严格按照以下模板输出多种英文翻译。
+
+【强指令要求】：
+1. 绝对不要输出任何打招呼、废话或过渡句！立刻直接从"# 【译法多解】"这行开始输出！
+2. 核心任务是给出尽可能多的英文翻译版本，每个版本都要有独特价值（直译、意译、地道说法等），多多益善但绝不重复！
+3. 每个翻译版本应标注适用语境/语域（口语、书面、商务、学术、文学等），帮助用户根据场合选择。
+4. 如果该中文短语是成语、俗语、习语，请额外说明其文化背景和直译vs意译的区别。
+5. 【重要排版规则】每个翻译版本必须独占一段，版本之间必须空一整行！绝不能把两个翻译版本挤在同一段文字里。这直接影响阅读体验，请务必遵守！
+
+# 【译法多解】：[用户输入的中文短语]
+
+## 核心含义
+[用英文和中文各一句概括该短语的核心语义]
+
+## 翻译版本
+
+### 直译（Literal）
+
+- **[英文翻译]** — 语域：[口语/书面/商务/学术/文学/政治] | 适用场景：[简要说明]
+
+*(1~2个版本，每个版本独占一行并用空行隔开)*
+
+### 意译（Idiomatic / Natural）
+
+- **[英文翻译]** — 语域：[口语/书面/商务/学术/文学/政治] | 适用场景：[简要说明]
+
+*(列出 3~6 个不同表达，每个版本独占一行并用空行隔开)*
+
+### 地道英语对应（Native-like Equivalents）
+
+- **[英文翻译]** — 语域：[口语/书面/商务/学术/文学/政治] | 说明：[这是英语母语者最自然的说法/这是对应英语习语/这是文化对等表达]
+
+*(列出 2~5 个，每个版本独占一行并用空行隔开。如果中文是成语/习语，务必给出对应的英语习语)*
+
+### 创意变体（如适用）
+
+- **[英文翻译]** — 风格：[幽默/诗意/极简/强调] | 适用场景：[简要说明]
+
+*(如有，列出 1~3 个，每个版本独占一行并用空行隔开；如无，写"暂无更多变体")*
+
+## 精选例句
+
+- [3~5 个不同版本对应的完整英文例句 + 中文回译，覆盖不同语域]
+
+- [每个例句标注它对应哪个翻译版本]`;
+
+            } else {
+                // 中文句子 → 译境探索
+                return `你是一位精通中英双语的翻译专家。用户输入的是一个中文句子，请严格按照以下模板从多维度给出英文翻译。
+
+【强指令要求】：
+1. 绝对不要输出任何打招呼、废话或过渡句！立刻直接从"# 【译境探索】"这行开始输出！
+2. 核心任务是按不同语域和风格给出多种英文翻译，每种风格至少1个版本，帮助用户体会同一个意思在不同语境下的表达差异。
+3. 每个翻译都要完整、自然、地道，像母语者写出来的，绝不生硬直译。
+4. 如果原句有独特的中文修辞（比喻、排比、典故等），请在各版本中尝试用英文修辞对应。
+5. 【重要排版规则】每个翻译版本必须独占一段，版本之间必须空一整行！绝不能把两个翻译版本挤在同一段文字里。每个翻译下面的风格备注用缩进列表（- 开头），与翻译正文之间不要空行。
+
+# 【译境探索】：[用户输入的中文句子]
+
+## 原句理解
+[用英文简述该句的语义和潜在语气，再用中文补充语境判断]
+
+## 翻译矩阵
+
+### 日常口语（Casual / Conversational）
+
+**[英文翻译]**
+- 风格备注：[这句适合跟朋友聊天/日常对话/社交媒体等场景]
+
+### 书面通用（Standard / Neutral）
+
+**[英文翻译]**
+- 风格备注：[适合邮件、一般写作、中等正式场合]
+
+### 正式书面（Formal / Business）
+
+**[英文翻译]**
+- 风格备注：[适合商务邮件、报告、正式信函等场景]
+
+### 学术/专业（Academic / Technical）
+
+**[英文翻译]**
+- 风格备注：[适合论文、学术讨论、专业报告等场景]
+
+### 文学雅致（Literary / Elegant）
+
+**[英文翻译]**
+- 风格备注：[用词考究、富有文采，适合文学创作或演讲]
+
+## 词汇点睛
+
+[挑选原句中 3~5 个关键中文词/短语，分别列出它们在各个翻译版本中对应的英文表达，并简要说明选词考量。每个词的分析之间用空行隔开]
+
+## 翻译策略点评
+
+[用中文简要分析：这个中文句子在翻译成英文时的主要难点是什么？不同版本分别如何处理这些难点？]`;
+            }
+        }
+
+        // ====== 英语短语/句子查询模板 ======
+        if (userInput.includes(' ')) {
             return `你是一个专业的英语语言解析专家。用户查询的是短语或短句，请严格按以下模板输出解析。
 
 【强指令要求】：
@@ -2077,20 +2772,32 @@
 2. 这是短语/句子查询，不需要音标。重点在于整体含义、使用场景和例句。
 3. 如果该短语是习语、动词短语、固定搭配，请重点说明。
 4. 内容要详尽：同义表达不少于5个，例句不少于4个。但如果实在没有那么多，如实列出已有内容即可，严禁通过重复输出相同内容来凑数！
+5. 排版要求：每个独立的同义表达和例句之间必须用空行隔开，绝不能挤在同一段里！
 
 # 【查询内容】：[用户输入的短语/句子]
+
 ## 整体解析
+
 1. **中文释义**：[该短语/句子的整体中文意思]
+
 2. **使用场景**：[在什么场合、语境下使用，正式/非正式/口语等]
+
 3. **语法点睛**：[简短说明语法结构或值得注意的用法点]
+
 4. **核心词汇分解**：[逐个列出短语中的关键词及其在此语境下的含义]
-5. **同义表达**：[至少5个可以替换的同义短语或说法，含简要区别]
+
+5. **同义表达**：
+   - [替换表达1] — [简要区别说明]
+   - [替换表达2] — [简要区别说明]
+   *(至少5个，条目之间必须用空行隔开)*
+
 6. **例句**：
-   - [至少2个日常例句及中文翻译]
-   - [至少2个书面或正式场景例句及中文翻译]`;
+   - [日常例句 + 中文翻译]
+   - [书面或正式场景例句 + 中文翻译]
+   *(至少4个，条目之间必须用空行隔开)*`;
         }
 
-        // ====== 单个单词查询模板 ======
+        // ====== 单个英语单词查询模板 ======
         return `你是一个专业的英语词汇解析专家。请严格按照以下Markdown模板输出解析内容。
 
 【强指令要求】：
@@ -2137,14 +2844,36 @@
         const sectionTitles = [
             '音标', '中文释义', '辅助记忆', '典型短语', '派生词',
             '形近词辨析', '同义词', '反义词', '易混词专项辨析', '例句',
+            // 中文→英文翻译模式的新增板块标题
+            '核心词义', '同义词族', '使用场景辨析',
+            '日常口语', '书面正式', '文学雅致', '高级表达', '专业术语',
+            '直译', '意译', '地道英语对应', '创意变体', '精选例句',
+            '原句理解', '翻译矩阵', '词汇点睛', '翻译策略点评',
+            '口语化翻译', '书面化翻译', '学术化翻译', '文学化翻译',
+            '场景例句', '翻译版本', '同义词罗盘', '译法多解', '译境探索',
         ];
         let result = html;
+
+        // 第一步：给 <strong> 中的板块标题着色（英文模式的主力）
         sectionTitles.forEach((title, index) => {
             const escaped = title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
             const regex = new RegExp(`<strong>(${escaped})</strong>`, 'g');
             result = result.replace(regex, `<strong class="title-${index + 1}">$1</strong>`);
         });
+
+        // 第二步：给 <h2> / <h3> 也分配 title-X 类（中文模式的 ## / ### 标题）
+        // 从 sectionTitles.length+1 起编号，避免与上面冲突
+        let hIndex = sectionTitles.length;
+        result = result.replace(/<h2>/g, function () { hIndex++; return '<h2 class="title-' + hIndex + '">'; });
+        result = result.replace(/<h3>/g, function () { hIndex++; return '<h3 class="title-' + hIndex + '">'; });
+
         return result;
+    }
+
+    // 修复 markdown 标题：确保 # / ## 前有换行，防止渲染为普通文本
+    function fixMarkdownHeadings(md) {
+        // 非行首的 # 或 ##（前面是非换行字符）→ 前面插入换行
+        return md.replace(/([^\n])(#{1,6}\s)/g, '$1\n$2');
     }
 
     // 折叠连续重复行：防止 AI 在某个板块反复输出相同内容
@@ -2234,16 +2963,439 @@
             if (btn.innerText.includes('复制')) {
                 const originalText = btn.innerText;
                 btn.innerText = '✅ 已复制!';
-                btn.style.color = '#16a34a';
-                btn.style.borderColor = '#16a34a';
+                btn.style.color = '#30b54e';
+                btn.style.borderColor = '#30b54e';
+                btn.style.transform = 'scale(1.06)';
+                btn.style.transition = 'all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                setTimeout(() => {
+                    btn.style.transform = 'scale(1)';
+                }, 300);
                 setTimeout(() => {
                     btn.innerText = originalText;
                     btn.style.color = '';
                     btn.style.borderColor = '';
+                    btn.style.transform = '';
+                    btn.style.transition = '';
                 }, 2000);
             }
         });
     }
+
+    // ======== 目录导航 (TOC) ========
+    let tocObserver = null;
+    const TOC_SIDE_KEY = 'toc_side_v9';
+
+    function getTocSide() {
+        return localStorage.getItem(TOC_SIDE_KEY) || 'right';
+    }
+
+    function applyTocSide() {
+        const sidebar = document.getElementById('tocSidebar');
+        const saved = getTocSide();
+        if (saved === 'left') {
+            sidebar.classList.add('left');
+        } else {
+            sidebar.classList.remove('left');
+        }
+        updateArrowIcon(saved);
+    }
+
+    // ======== 拖动目录侧边栏 ========
+    let tocDrag = null; // { startX, startY, startLeft, startTop, sidebar, moved }
+
+    function initTocDrag() {
+        const sidebar = document.getElementById('tocSidebar');
+        sidebar.addEventListener('pointerdown', onTocDragStart);
+        document.addEventListener('pointermove', onTocDragMove, { passive: false });
+        document.addEventListener('pointerup', onTocDragEnd);
+        document.addEventListener('pointercancel', onTocDragEnd);
+        // 防止移动端页面随拖拽滚动
+        sidebar.addEventListener('touchstart', function(e) {
+            if (e.target.closest('.toc-item') || e.target.closest('.toc-edge-arrow')) return;
+        }, { passive: false });
+    }
+
+    function getSidebarLeft() {
+        const sidebar = document.getElementById('tocSidebar');
+        return sidebar.getBoundingClientRect().left;
+    }
+
+    function getSidebarTop() {
+        const sidebar = document.getElementById('tocSidebar');
+        return sidebar.getBoundingClientRect().top;
+    }
+
+    function onTocDragStart(e) {
+        const sidebar = document.getElementById('tocSidebar');
+        if (!sidebar.classList.contains('visible')) return;
+        // 点击目录条目、箭头按钮时不触发拖拽（标题栏也可拖拽）
+        if (e.target.closest('.toc-item') || e.target.closest('.toc-edge-arrow')) return;
+
+        // 只响应主按钮（左键/单指触摸）
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+
+        const rect = sidebar.getBoundingClientRect();
+        tocDrag = {
+            startX: e.clientX,
+            startY: e.clientY,
+            startLeft: rect.left,
+            startTop: rect.top,
+            sidebar: sidebar,
+            moved: false
+        };
+
+        // 冻结过渡，准备跟随鼠标
+        sidebar.style.transition = 'none';
+        sidebar.style.cursor = 'grabbing';
+        sidebar.style.boxShadow = 'var(--shadow-xl), 0 0 0 2px var(--c-title-2)';
+        sidebar.style.userSelect = 'none';
+        sidebar.style.webkitUserSelect = 'none';
+        sidebar.setPointerCapture(e.pointerId);
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    function onTocDragMove(e) {
+        if (!tocDrag) return;
+        // 检查这个事件是否属于我们的拖拽
+        if (!tocDrag.sidebar.hasPointerCapture(e.pointerId)) {
+            // 如果没有捕获到这个 pointer，但有 drag 状态，忽略（防御性）
+            return;
+        }
+
+        const sidebar = tocDrag.sidebar;
+        const deltaX = e.clientX - tocDrag.startX;
+        const deltaY = e.clientY - tocDrag.startY;
+
+        // 忽略微小移动（< 3px），防止误触发拖拽
+        if (!tocDrag.moved && Math.abs(deltaX) < 3 && Math.abs(deltaY) < 3) return;
+        tocDrag.moved = true;
+
+        let newLeft = tocDrag.startLeft + deltaX;
+        let newTop = tocDrag.startTop + deltaY;
+
+        // Y 轴：限制在视口内
+        const maxTop = window.innerHeight - sidebar.offsetHeight - 16;
+        newTop = Math.max(16, Math.min(maxTop, newTop));
+
+        // X 轴：限制在视口内
+        const maxLeft = window.innerWidth - sidebar.offsetWidth - 8;
+        newLeft = Math.max(4, Math.min(maxLeft, newLeft));
+
+        // 用内联样式覆盖 CSS 定位，实现跟随鼠标
+        sidebar.style.left = newLeft + 'px';
+        sidebar.style.right = 'auto';
+        sidebar.style.top = newTop + 'px';
+        sidebar.style.opacity = '0.93';
+        sidebar.style.transform = 'none';
+
+        // 实时判定：侧边栏中心是否过了视口中线
+        const sidebarCenter = newLeft + sidebar.offsetWidth / 2;
+        const viewportMid = window.innerWidth / 2;
+        const snapLeft = sidebarCenter < viewportMid;
+
+        // 视觉反馈：箭头方向 + 边框高亮随判定侧实时变化
+        const btn = document.getElementById('tocEdgeArrow');
+        if (snapLeft) {
+            btn.textContent = '▶';
+            btn.style.background = 'rgba(224,142,11,0.18)';
+            btn.style.borderColor = 'var(--c-title-2)';
+            btn.style.color = 'var(--c-title-2)';
+            sidebar.style.boxShadow = 'var(--shadow-xl), 0 0 0 2px var(--c-title-2), -10px 0 24px rgba(224,142,11,0.18)';
+        } else {
+            btn.textContent = '◀';
+            btn.style.background = 'rgba(224,142,11,0.18)';
+            btn.style.borderColor = 'var(--c-title-2)';
+            btn.style.color = 'var(--c-title-2)';
+            sidebar.style.boxShadow = 'var(--shadow-xl), 0 0 0 2px var(--c-title-2), 10px 0 24px rgba(224,142,11,0.18)';
+        }
+    }
+
+    function onTocDragEnd(e) {
+        if (!tocDrag) return;
+        const sidebar = tocDrag.sidebar;
+
+        // 释放指针捕获
+        try { sidebar.releasePointerCapture(e.pointerId); } catch (_) {}
+
+        // 如果没移动过（只是点击），直接清理状态
+        if (!tocDrag.moved) {
+            sidebar.style.transition = '';
+            sidebar.style.left = '';
+            sidebar.style.right = '';
+            sidebar.style.top = '';
+            sidebar.style.opacity = '';
+            sidebar.style.transform = '';
+            sidebar.style.boxShadow = '';
+            sidebar.style.cursor = '';
+            sidebar.style.userSelect = '';
+            sidebar.style.webkitUserSelect = '';
+            const btn = document.getElementById('tocEdgeArrow');
+            btn.style.background = '';
+            btn.style.borderColor = '';
+            btn.style.color = '';
+            tocDrag = null;
+            return;
+        }
+
+        const rect = sidebar.getBoundingClientRect();
+        const sidebarCenter = rect.left + rect.width / 2;
+        const viewportMid = window.innerWidth / 2;
+
+        // 放手那一刻判定：侧边栏中心是否过了视口中线
+        const snapLeft = sidebarCenter < viewportMid;
+
+        // 更新 class
+        if (snapLeft) {
+            sidebar.classList.add('left');
+        } else {
+            sidebar.classList.remove('left');
+        }
+        updateArrowIcon(snapLeft ? 'left' : 'right');
+        localStorage.setItem(TOC_SIDE_KEY, snapLeft ? 'left' : 'right');
+
+        // 弹簧吸附动画：用显式像素值替代 auto，确保 CSS transition 可插值
+        const sidebarWidth = sidebar.offsetWidth;
+        const pageWidth = 880;
+        const cssOffset = Math.max(16, (window.innerWidth - pageWidth) / 2 - 200);
+        let targetLeft;
+        if (snapLeft) {
+            targetLeft = cssOffset;                          // 左侧：left 直接使用偏移量
+        } else {
+            targetLeft = window.innerWidth - sidebarWidth - cssOffset; // 右侧：left = 视口宽 - 面板宽 - 右侧偏移
+        }
+
+        sidebar.style.transition = 'all 0.55s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        sidebar.style.left = targetLeft + 'px';
+        sidebar.style.right = 'auto';
+        sidebar.style.top = '120px';          // CSS 固定值，设为像素确保可插值
+        sidebar.style.opacity = '';
+        sidebar.style.transform = '';
+        sidebar.style.boxShadow = '';
+        sidebar.style.cursor = '';
+        sidebar.style.userSelect = '';
+        sidebar.style.webkitUserSelect = '';
+
+        // 恢复箭头样式
+        const btn = document.getElementById('tocEdgeArrow');
+        btn.style.background = '';
+        btn.style.borderColor = '';
+        btn.style.color = '';
+
+        setTimeout(function() {
+            // 动画结束后清除内联定位，交还 CSS class 控制
+            sidebar.style.transition = '';
+            sidebar.style.left = '';
+            sidebar.style.right = '';
+            sidebar.style.top = '';
+        }, 600);
+
+        tocDrag = null;
+    }
+
+    function updateArrowIcon(side) {
+        const btn = document.getElementById('tocEdgeArrow');
+        if (side === 'left') {
+            btn.textContent = '▶';
+            btn.title = '拖到右侧 或 点击切换';
+            btn.setAttribute('aria-label', '切换到右侧');
+        } else {
+            btn.textContent = '◀';
+            btn.title = '拖到左侧 或 点击切换';
+            btn.setAttribute('aria-label', '切换到左侧');
+        }
+    }
+
+    // 点击箭头快速切换到另一侧 — 飞越屏幕中央的穿梭动画
+    function toggleTocSide() {
+        const sidebar = document.getElementById('tocSidebar');
+        if (tocDrag) return;
+
+        const current = sidebar.classList.contains('left') ? 'left' : 'right';
+        const next = current === 'right' ? 'left' : 'right';
+
+        // 1️⃣ 记录动画前侧边栏在屏幕上的实际位置
+        const oldRect = sidebar.getBoundingClientRect();
+
+        // 2️⃣ 冻结动画 + 切换 class（无过渡，瞬间跳到新位置）
+        sidebar.style.transition = 'none';
+        sidebar.style.pointerEvents = 'none';
+        if (next === 'left') {
+            sidebar.classList.add('left');
+        } else {
+            sidebar.classList.remove('left');
+        }
+        updateArrowIcon(next);
+
+        // 3️⃣ 获取 class 切换后侧边栏在屏幕上的新位置
+        const newRect = sidebar.getBoundingClientRect();
+
+        // 4️⃣ 计算从旧位置到新位置的位移差
+        const deltaX = oldRect.left - newRect.left;
+        const deltaY = oldRect.top - newRect.top;
+
+        // 5️⃣ 用 transform 把侧边栏"拽回"旧位置（视觉上还在原处）
+        sidebar.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(0.92)`;
+        sidebar.style.opacity = '0.7';
+
+        // 6️⃣ 强制重排，确保浏览器提交上面的样式
+        void sidebar.offsetHeight;
+
+        // 7️⃣ 启动飞越动画：侧边栏穿梭过屏幕，弹簧着陆
+        sidebar.style.transition = 'transform 0.6s cubic-bezier(0.22, 0.85, 0.35, 1.02), opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+        sidebar.style.transform = 'translate(0, 0) scale(1)';
+        sidebar.style.opacity = '1';
+        sidebar.style.pointerEvents = 'auto';
+
+        // 8️⃣ 动画完成后清理内联样式，交还 CSS 控制
+        setTimeout(function() {
+            sidebar.style.transition = '';
+            sidebar.style.transform = '';
+            sidebar.style.opacity = '';
+            sidebar.style.pointerEvents = '';
+        }, 650);
+
+        localStorage.setItem(TOC_SIDE_KEY, next);
+    }
+
+    function buildTOC() {
+        const resultContent = document.getElementById('resultContent');
+        const sidebar = document.getElementById('tocSidebar');
+        const tocList = document.getElementById('tocList');
+        const tocListMobile = document.getElementById('tocListMobile');
+        const tocToggle = document.getElementById('tocToggle');
+
+        // 清除旧目录
+        tocList.innerHTML = '';
+        tocListMobile.innerHTML = '';
+        if (tocObserver) { tocObserver.disconnect(); tocObserver = null; }
+
+        // 扫描所有板块标题
+        // 优先匹配 <strong> 中的标题（英文模式的主力），
+        // 若无则回退到 <h2>/<h3>（中文翻译模式，AI 输出 ##/### 标题）
+        let headings = resultContent.querySelectorAll('strong[class^="title-"]');
+        if (headings.length === 0) {
+            headings = resultContent.querySelectorAll('h2[class^="title-"], h3[class^="title-"]');
+        }
+        if (headings.length === 0) {
+            sidebar.classList.remove('visible');
+            tocToggle.classList.remove('visible');
+            return;
+        }
+
+        headings.forEach((heading, i) => {
+            // 注入锚点 ID
+            const id = 'sec-' + (i + 1);
+            heading.id = id;
+
+            const text = heading.textContent.trim();
+            if (!text) return;
+
+            // 桌面侧边栏条目
+            const item = document.createElement('button');
+            item.className = 'toc-item';
+            item.textContent = (i + 1) + '. ' + text;
+            item.setAttribute('data-target', id);
+            item.onclick = function() {
+                scrollToSection(id);
+            };
+            tocList.appendChild(item);
+
+            // 移动端条目
+            const itemM = document.createElement('button');
+            itemM.className = 'toc-item';
+            itemM.textContent = (i + 1) + '. ' + text;
+            itemM.setAttribute('data-target', id);
+            itemM.onclick = function() {
+                scrollToSection(id);
+                closeTocOverlay();
+            };
+            tocListMobile.appendChild(itemM);
+        });
+
+        // 显示侧边栏 / 移动按钮
+        if (window.innerWidth > 1100) {
+            sidebar.classList.add('visible');
+            applyTocSide();
+            tocToggle.classList.remove('visible');
+        } else {
+            sidebar.classList.remove('visible');
+            tocToggle.classList.add('visible');
+        }
+
+        // 滚动监听 (IntersectionObserver)
+        tocObserver = new IntersectionObserver(function(entries) {
+            // 收集所有当前可见的标题
+            const visible = entries.filter(function(e) { return e.isIntersecting; });
+            if (visible.length === 0) return;
+
+            // 取最靠上的那个
+            visible.sort(function(a, b) {
+                return a.boundingClientRect.top - b.boundingClientRect.top;
+            });
+            const activeId = visible[0].target.id;
+
+            // 高亮对应条目
+            [tocList, tocListMobile].forEach(function(list) {
+                list.querySelectorAll('.toc-item').forEach(function(item) {
+                    if (item.getAttribute('data-target') === activeId) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+            });
+        }, {
+            rootMargin: '-80px 0px -60% 0px',
+            threshold: 0
+        });
+
+        headings.forEach(function(h) {
+            tocObserver.observe(h);
+        });
+
+        // 初始高亮第一个
+        if (tocList.firstChild) tocList.firstChild.classList.add('active');
+        if (tocListMobile.firstChild) tocListMobile.firstChild.classList.add('active');
+    }
+
+    function scrollToSection(id) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // 短暂高亮
+        el.style.transition = 'background 0.3s';
+        el.style.background = 'var(--clickable-bg)';
+        setTimeout(function() { el.style.background = ''; }, 1200);
+    }
+
+    function closeTocOverlay(e) {
+        if (e && e.target !== document.getElementById('tocOverlay')) return;
+        document.getElementById('tocOverlay').classList.remove('show');
+    }
+
+    function openTocOverlay() {
+        document.getElementById('tocOverlay').classList.add('show');
+    }
+
+    // 移动端目录按钮点击
+    document.getElementById('tocToggle').addEventListener('click', openTocOverlay);
+
+    // 窗口尺寸变化时更新 TOC 显示模式
+    window.addEventListener('resize', function() {
+        var sidebar = document.getElementById('tocSidebar');
+        var toggle = document.getElementById('tocToggle');
+        var tocList = document.getElementById('tocList');
+        if (tocList.children.length === 0) return; // 无内容时不动
+        if (window.innerWidth > 1100) {
+            sidebar.classList.add('visible');
+            applyTocSide();
+            toggle.classList.remove('visible');
+        } else {
+            sidebar.classList.remove('visible');
+            toggle.classList.add('visible');
+        }
+    });
 </script>
 </body>
 </html>
