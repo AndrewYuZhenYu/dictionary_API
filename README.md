@@ -432,3 +432,5 @@ evictOldCache()缓存清理逻辑：优先清理不在history历史的缓存。
 - 依赖 marked: MIT License
 - 使用DeepSeek API请遵守DeepSeek服务条款。
   禁止直接商用；二次分发请保留原作者注释。
+## 最后一次修改时间
+2026-10-17 12:11:37
