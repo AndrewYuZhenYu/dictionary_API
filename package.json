@@ -1,10 +1,13 @@
 {
   "name": "dictionary_API",
   "version": "1.0.0",
-  "description": "",
+  "description": "Local streaming dictionary with a DeepSeek proxy",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "test": "node tests/dictionary.test.js",
+    "test:server": "node tests/server.test.js"
   },
-  "private": true
+  "private": true,
+  "engines": { "node": ">=18" }
 }
